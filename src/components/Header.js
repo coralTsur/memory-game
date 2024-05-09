@@ -1,6 +1,9 @@
-import  {Form, FloatingLabel, Button,Alert} from 'react-bootstrap';
+import  {Form, FloatingLabel,Alert} from 'react-bootstrap';
+import {Fragment, useState} from "react";
+import {Link, Outlet} from "react-router-dom";
 
 function Header() {
+
     return (
         <>
             <div className='container - fluid' >
@@ -17,15 +20,18 @@ function Header() {
                                            className="mb-3">
                                 <Form.Control type="text" pattern="[a-zA-Z0-9]+" placeholder="Your Name:" />
                             </FloatingLabel>
-                            <Button variant="success">Play</Button>{' '}
-                            <Button variant="success">Settings</Button>{' '}
-                            <Button variant="success">High Scores</Button>{' '}
+                            <Link className = {"btn btn-success"} to = {"/play"}>Play</Link>{' '}
+                            <Link className = {"btn btn-success"} to = {"/settings"}>Settings</Link>{' '}
+
                         </div>
                     </div>
                 </div>
             </div>
+            <Outlet />
         </>
     );
 }
 
 export default Header;
+
+
