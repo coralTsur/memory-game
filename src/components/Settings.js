@@ -48,7 +48,7 @@ function Settings({settingsFilter, updateSettings}) {
                         <Form.Select name="col" value={settingsFilter.col || ""} onChange={handleChange}>
                             <option>2</option>
                             <option>3</option>
-                            <option selected>4</option>
+                            <option>4</option>
                             <option>5</option>
                         </Form.Select>
                         {errorMessage && <div  className="error-message">{errorMessage}</div>}

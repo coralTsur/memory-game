@@ -17,8 +17,8 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element = { <Header />}>
-                            <Route path ="settings" element={<Game/>}/>
-                            <Route path ="play" element={<Play/>}/>
+                            <Route path ="settings" element={<Settings settingsFilter={inputs} updateSettings={setInputs} />}/>
+                            <Route path ="play" element={<Play settingsFilter={inputs}/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>
@@ -32,18 +32,3 @@ export default App;
 
 
 
-const [inputs, setInputs] = useState({ row: 4, col: 4, delay: 1 });
-
-return (
-    <div className="App">
-        <p>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element = { <Header />}>
-                        <Route path ="settings" element={<Settings settingsFilter={inputs} updateSettings={setInputs} />}/>
-                        <Route path ="play" element={<Play settingsFilter={inputs}/>}/>
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        </p>
-    </div>
