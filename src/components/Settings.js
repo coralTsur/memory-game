@@ -15,13 +15,17 @@ function Settings({settingsFilter, updateSettings}) {
                 setErrorMessage("row * col must be even number");
 
         }
-        if (name === "col") {
+        else if (name === "col") {
             if (settingsFilter.row * value % 2 === 0)
                 updateSettings(values =>({...values,[name]:value}));
             else
                 setErrorMessage("row * col must be an even number");
 
         }
+        else
+            updateSettings(values =>({...values,[name]:value}));
+
+
 
         console.log("after change: " , value);
 

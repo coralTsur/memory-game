@@ -23,7 +23,6 @@ function App() {
                             <Route path ="settings" element={<Settings settingsFilter={inputs} updateSettings={setInputs} />}/>
                             <Route path ="play" element={<Play settingsFilter={inputs} playerData={playerData} updatePlayerData={setPlayerData}/>}/>
                             <Route path ="highScore" element={<TableHighScore playerData={playerData}/>}/>
-
                         </Route>
                     </Routes>
                 </BrowserRouter>
