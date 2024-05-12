@@ -6,14 +6,10 @@ function Cards({srcImage}) {
     const s = srcImage.toString(); // Convert srcImage to a string
     return(
         <>
-            <div className="col-3">
-                <Image src={srcImage} alt="Description of the image" />
-            </div>
             <div>
-            <Card style={{width: '18rem'}}>
-                <Card.Img variant="top" src="/images/1.jp" alt="not ok"/>
-            </Card>
+                <Image src={srcImage} alt="Image not loaded" />
             </div>
+
         </>
     );
 }
