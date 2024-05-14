@@ -2,11 +2,17 @@ import React, {useState} from 'react';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 
-function Cards({srcImage, delay, isOpenCards, setIsOpenCards}) {
-    const [isClicked, setIsClicked] = useState(false);
+function Cards({srcImage, delay, onClickFunc, isClicked, setIsClicked}) {
+
+    const handleClick = () => {
+        if (onClickFunc) {
+            onClickFunc(); // Call the onClick event passed from the parent component
+        }
+    };
+
     const handleMouseEnter = (event) => { event.target.style.opacity = 0.75; }
     const handleMouseLeave = (event) => { event.target.style.opacity = 1; }
-    /*const handleImageSrc = () => {
+   /* const handleImageSrc = () => {
         if (!isClicked && !isOpenCards.first) {
             setIsClicked(true);
             setIsOpenCards(prevState => ({ ...prevState, first: true }));
@@ -37,20 +43,20 @@ function Cards({srcImage, delay, isOpenCards, setIsOpenCards}) {
         }
         else //2 cards already open, do nothing
             ;*/
-    const handleImageSrc = () => {
+   /* const handleImageSrc = () => {
         setIsClicked(true);
         setTimeout(() => {
             setIsClicked(false);
 
         }, delay * 1000);
 
-    };
+    };*/
     return(
         <>
             {isClicked ?
-                <div><Image src={srcImage} alt="Image not loaded" onClick={handleImageSrc}
+                <div><Image src='/images/card.jpg' alt="Image not loaded" onClick={handleClick}
                             onMouseLeave={handleMouseLeave}/></div> :
-                <div><Image src='/images/card.jpg' alt="Image not loaded" onClick={handleImageSrc}
+                <div><Image src= {srcImage} alt="Image not loaded" onClick={handleClick}
                             onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/></div>}
 
         </>
