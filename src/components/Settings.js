@@ -1,7 +1,8 @@
 import Form from 'react-bootstrap/Form';
 import {Fragment, useState} from "react";
+import InputName from "./InputName";
 
-function Settings({settingsFilter, updateSettings}) {
+function Settings({settingsFilter, updateSettings, setPlayerData}) {
 
     const [errorMessage, setErrorMessage] = useState(""); // State to manage the error message
 
@@ -35,6 +36,7 @@ function Settings({settingsFilter, updateSettings}) {
     return (
         <>
             <div className='container - fluid'>
+                <InputName setPlayerData={setPlayerData} />
                 <div className='row'>
                     <div className='col-4'>
                         <Form.Label>Number of rows</Form.Label>
@@ -55,7 +57,7 @@ function Settings({settingsFilter, updateSettings}) {
                             <option>4</option>
                             <option>5</option>
                         </Form.Select>
-                        {errorMessage && <div  className="error-message">{errorMessage}</div>}
+                        {errorMessage && <div className="error-message">{errorMessage}</div>}
 
                     </div>
                 </div>
@@ -63,7 +65,7 @@ function Settings({settingsFilter, updateSettings}) {
                 <div className='row'>
                     <div className='col-4'>
                         <Form.Label>Delay in seconds</Form.Label>
-                        <Form.Select  name ="delay" value={settingsFilter.delay||""} onChange={handleChange}>
+                        <Form.Select name="delay" value={settingsFilter.delay || ""} onChange={handleChange}>
                             <option>0.5</option>
                             <option>0.6</option>
                             <option>0.7</option>

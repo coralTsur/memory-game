@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
 import Cards from './Cards';
 
-function CardsList({ settingsFilter }) {
+function CardsList({ settingsFilter, setSteps }) {
     const imageList = ['/images/0.jpg', '/images/1.jpg', '/images/2.jpg', '/images/3.jpg', '/images/4.jpg',
         '/images/5.jpg', '/images/6.jpg', '/images/7.jpg', '/images/8.jpg', '/images/9.jpg', '/images/10.jpg',
         '/images/11.jpg', '/images/12.jpg', '/images/13.jpg', '/images/14.jpg', '/images/15.jpg'];
 
     const [cardList, setCardList] = useState([]);
     const [clickedCards, setClickedCards] = useState(Array(imageList.length).fill(false)); // Initialize with false for each card
+    const [shouldShuffle, setShouldShuffle] = useState(true); // Initially true to shuffle on settingsFilter change
 
+    // Shuffle the cards only when settingsFilter changes
     useEffect(() => {
-        // Shuffle the image sources only once when the component mounts or when the dependencies change
-        const shuffledSources = shuffleArray(imageList.slice(0, (settingsFilter.col * settingsFilter.row) / 2).concat(imageList.slice(0, (settingsFilter.col * settingsFilter.row) / 2)));
-        const updatedCardList = shuffledSources.map((src, index) => (
-            <div key={index} className="col-3">
-                <Cards
-                    srcImage={src}
-                    delay={settingsFilter.delay}
-                    onClickFunc={() => handleCardClick(index)}
-                    isClicked={clickedCards[index]} // Pass the clicked state of the card
-                />
-            </div>
-        ));
-        setCardList(updatedCardList);
-    }, [settingsFilter.delay, settingsFilter.col, settingsFilter.row]);
+        if (shouldShuffle) {
+            const shuffledSources = shuffleArray(imageList.slice(0, (settingsFilter.col * settingsFilter.row) / 2).concat(imageList.slice(0, (settingsFilter.col * settingsFilter.row) / 2)));
+            const updatedCardList = shuffledSources.map((src, index) => (
+                <div key={index} className="col-3">
+                    <Cards
+                        srcImage={src}
+                        onClickFunc={() => handleCardClick(index)}
+                        isClicked={clickedCards[index]} // Pass the clicked state of the card
+                    />
+                </div>
+            ));
+            setCardList(updatedCardList);
+        }
+    }, [settingsFilter, shouldShuffle]);
 
     const handleCardClick = (index) => {
         // Toggle the clicked state of the clicked card
@@ -32,6 +34,9 @@ function CardsList({ settingsFilter }) {
             updatedClickedCards[index] = !updatedClickedCards[index];
             return updatedClickedCards;
         });
+
+        // Do not shuffle cards on click event
+        setShouldShuffle(false);
     };
 
     function shuffleArray(array) {
@@ -50,6 +55,8 @@ function CardsList({ settingsFilter }) {
 }
 
 export default CardsList;
+
+
 
 
 

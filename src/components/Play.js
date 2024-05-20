@@ -1,30 +1,22 @@
 import Cards from "./Cards"
 import {useState} from "react";
 import CardsList from './CardsList'
+import GameManager from './GameManager'
+
 
 function Play({settingsFilter, playerData, updatePlayerData}) {
-    const [steps, setSteps] = useState(1);
-
-
-    const handleScoreUpdate = () => {
-        const result = steps * settingsFilter.delay * settingsFilter.col * settingsFilter.row ;
-        updatePlayerData(prevPlayerData => ({
-            ...prevPlayerData,
-            score: result
-        }));
-    };
-
 
 
 
     return(
         <>
             <div>
-                <CardsList settingsFilter={settingsFilter}/>
+                {/*<CardsList settingsFilter={settingsFilter} setSteps={setSteps}/>*/}
+                <GameManager settings={settingsFilter} playerData={playerData} updatePlayerData={updatePlayerData}/>
             </div>
             <br/>
             <div>
-                <button onClick={handleScoreUpdate}>Update Score</button>
+                <button>I want to quit </button>
             </div>
         </>
     );

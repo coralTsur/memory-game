@@ -1,28 +1,21 @@
 import { Alert} from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
-import {useState} from "react";
+import React, {useState} from "react";
+import Cards from "./Cards";
 
 
-function TableHighScore({playerData}) {
-    //const [leaderboard{}, setLeaderboard] = useState({name:"", score: 0} );
-    const [first, setFirst] = useState(true);
+function TableHighScore() {
 
-    const leaderboardData = localStorage.getItem('leaderboard');
-    if (leaderboardData && first) {
-        setFirst(false);
-        const leaderboard = JSON.parse(leaderboardData);
-        leaderboard.xx = playerData.score;
+    const leaderboardData = localStorage.getItem('leaderboard') ;
+    const leaderboard = JSON.parse(leaderboardData) || [];
 
-        localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-    }
-    else if(!leaderboardData){
-        // Create a new leaderboard object
-        const leaderboard = { };
-        leaderboard.xx = 'v';
-        localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-    }
-
-
+    const updatedCardList = leaderboard.map((player,index) => (
+            <tr key={index+1}>
+                <td>{index+1}</td>
+                <td>{player["name"]}</td>
+                <td>{player["score"]}</td>
+            </tr>
+    ));
 
     return (
         <>
@@ -48,16 +41,7 @@ function TableHighScore({playerData}) {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>23</td>
-                            </tr>
+                            {updatedCardList}
                             </tbody>
                         </Table>
                     </div>
