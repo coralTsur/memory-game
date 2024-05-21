@@ -6,10 +6,12 @@ import Header from "./Header";
 import InputName from "./InputName";
 import TableHighScore from "./TableHighScore";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import HighScorePage from "./HighScorePage";
+
 
 function Game() {
     const [inputs, setInputs] = useState({ row: 4, col: 4, delay: 1 });
-    const [playerData, setPlayerData] = useState({ name: "", score: 0,});
+    const [playerData, setPlayerData] = useState({ name: "xxxx", score: 0,});
 
 
     return (<>
@@ -24,7 +26,7 @@ function Game() {
                                                                       setPlayerData ={setPlayerData}/>}>
                             </Route>
                             <Route path="play/*" element={<Play settingsFilter={inputs} playerData={playerData} updatePlayerData={setPlayerData} />} />
-                            <Route path="highScore" element={<TableHighScore />} />
+                            <Route path="highScore" element={<HighScorePage />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>

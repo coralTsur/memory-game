@@ -10,7 +10,7 @@ function Header() {
                 <div className='row'>
                     <div className='col-12'>
                         <Alert key='success' variant='success'>
-                            Coral and Reut :))))))))))))))))))))))))) XD
+                            <h1 className="display-1">Memory Game</h1>
                         </Alert>
                     </div>
                 </div>

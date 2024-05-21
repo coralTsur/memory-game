@@ -1,71 +1,68 @@
 import Form from 'react-bootstrap/Form';
 import {Fragment, useState} from "react";
 import InputName from "./InputName";
+import {Alert} from "react-bootstrap";
 
 function Settings({settingsFilter, updateSettings, setPlayerData}) {
 
-    const [errorMessage, setErrorMessage] = useState(""); // State to manage the error message
+    const [errorMessage, setErrorMessage] = useState(false); // State to manage the error message
 
     const handleChange =(event)=>{
         const name =event.target.name;
         const value =event.target.value;
         if (name === "row") {
-            if (settingsFilter.col * value % 2 === 0)
-                updateSettings(values =>({...values,[name]:value}));
+            if (settingsFilter.col * value % 2 === 0) {
+                updateSettings(values => ({...values, [name]: value}));
+                setErrorMessage(false);
+            }
             else
-                setErrorMessage("row * col must be even number");
+                setErrorMessage(true);
 
         }
         else if (name === "col") {
-            if (settingsFilter.row * value % 2 === 0)
-                updateSettings(values =>({...values,[name]:value}));
+            if (settingsFilter.row * value % 2 === 0) {
+                updateSettings(values => ({...values, [name]: value}));
+                setErrorMessage(false);
+            }
             else
-                setErrorMessage("row * col must be an even number");
+                setErrorMessage(true);
 
         }
         else
             updateSettings(values =>({...values,[name]:value}));
-
-
-
-        console.log("after change: " , value);
-
     }
-    console.log("setting: " , settingsFilter.row);
 
     return (
         <>
             <div className='container - fluid'>
-                <InputName setPlayerData={setPlayerData} />
+                <InputName setPlayerData={setPlayerData}/>
                 <div className='row'>
-                    <div className='col-4'>
-                        <Form.Label>Number of rows</Form.Label>
-                        <Form.Select name="row" value={settingsFilter.row || ""} onChange={handleChange}>
+                    <div className=' col-12 col-md-4'>
+                        <h3>Number of rows:</h3>
+                        <Form.Select size="lg" name="row" value={settingsFilter.row || ""} onChange={handleChange}>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
                             <option>5</option>
                         </Form.Select>
+                        <br/>
+
                     </div>
-                </div>
-                <div className='row'>
-                    <div className='col-4'>
-                        <Form.Label>Number of cols</Form.Label>
-                        <Form.Select name="col" value={settingsFilter.col || ""} onChange={handleChange}>
+                    <div className='col-12 col-md-4'>
+                        <h3>Number of columns:</h3>
+                        <Form.Select size="lg" name="col" value={settingsFilter.col || ""} onChange={handleChange}>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
                             <option>5</option>
                         </Form.Select>
-                        {errorMessage && <div className="error-message">{errorMessage}</div>}
 
+                        <br/>
                     </div>
-                </div>
 
-                <div className='row'>
-                    <div className='col-4'>
-                        <Form.Label>Delay in seconds</Form.Label>
-                        <Form.Select name="delay" value={settingsFilter.delay || ""} onChange={handleChange}>
+                    <div className='col-12 col-md-4'>
+                        <h3>Delay in seconds:</h3>
+                        <Form.Select size="lg" name="delay" value={settingsFilter.delay || ""} onChange={handleChange}>
                             <option>0.5</option>
                             <option>0.6</option>
                             <option>0.7</option>
@@ -83,6 +80,14 @@ function Settings({settingsFilter, updateSettings, setPlayerData}) {
                             <option>1.9</option>
                             <option>2.0</option>
                         </Form.Select>
+                    </div>
+                    <br/>
+                </div>
+
+                <div className="row">
+                    <div className="col-12 col-md-8">
+                        {errorMessage &&
+                            <Alert variant="danger">The numbers you chose weren't even multiple num of cards</Alert>}
                     </div>
                 </div>
             </div>

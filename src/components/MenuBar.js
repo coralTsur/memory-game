@@ -6,22 +6,25 @@ function MenuBar() {
 
     return (
         <>
-            <div className='container - fluid' >
-                <div className='row'    >
-                    <div className='col-4' ></div>
-                    <div className='col-4' >
+            <div className='container - fluid'>
+                <div className='row'>
+                    <div className='col-4'></div>
+                    <div className='col-4'>
 
                     </div>
                 </div>
-                <div className='row'    >
-                    <div className='col' >
-                        <Link className = {"btn btn-success"} to = {"/play"}>Play</Link>{' '}
-                        <Link className = {"btn btn-success"} to = {"/settings"}>Settings</Link>{' '}
-                        <Link className = {"btn btn-success"} to = {"/highScore"}>High Score</Link>{' '}
+                <div className='row'>
+                    <div className='col'>
+                        <Link  className={"btn btn-success btn-lg"} to={"/play"}>Play</Link>{' '}
+                        <Link className={"btn btn-success btn-lg "} to={"/settings"}>Settings</Link>{' '}
+                        <Link className={"btn btn-success btn-lg"} to={"/highScore"}>High Score</Link>{' '}
+
                     </div>
                 </div>
+                <br/>
+
             </div>
-            <Outlet />
+            <Outlet/>
         </>
     );
 }

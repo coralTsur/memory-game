@@ -15,6 +15,7 @@ function Game ({ settings,playerData ,updatePlayerData}) {
     const [matchedCards, setMatchedCards] = useState([]);
     const [isChecking, setIsChecking] = useState(false);
     const [steps, setSteps] = useState(0);
+    const [displayData, setDisplayData] = useState({displayScore: 0, rank: 0 });
 
 
     useEffect(() => {
@@ -65,6 +66,8 @@ function Game ({ settings,playerData ,updatePlayerData}) {
             leaderboard.push(newEntry);
 
         leaderboard.sort((a, b) => b.score - a.score);
+        const newIndex = leaderboard.findIndex(entry => entry.name === playerData.name);
+        //setDisplayData(values =>({...values, displayScore: scoreResult, rank: newIndex}));
         localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
     };
     const checkForMatch = ([index1, index2]) => {
@@ -103,22 +106,22 @@ function Game ({ settings,playerData ,updatePlayerData}) {
     };
     return (<>
             <div className="container-fluid">
-                {matchedCards.length !== cards.length ? (
-                    <>
-                        <h1>Steps: {steps}</h1>
-                        {renderRows()}
-                    </>
-                ) : (
-                    <div className="row">
-                        {handleScoreUpdate()} {/* Assuming handleScoreUpdate() returns the score */}
-                        <h1>GAME OVER</h1>
-                        <h5>Number of cards played: {settings.row * settings.col}</h5>
-                        <h5>Score: </h5> {/* Assuming `score` is a variable containing the calculated score */}
-                        <TableHighScore />
-                    </div>
-                )}
+                {
+                    matchedCards.length !== cards.length ||  cards.length === 0 ? (
+                        <div className="row">
+                            <h1>Steps: {steps}</h1>
+                            {renderRows()}
+                        </div>
+                    ) : (
+                        <div className="row">
+                            {handleScoreUpdate()} {/* Assuming handleScoreUpdate() returns the score */}
+                            <h1>GAME OVER</h1>
+                            <h5>Number of cards played: {settings.row * settings.col}</h5>
+                            <h5>Score: </h5> {/* Assuming `score` is a variable containing the calculated score */}
+                            <TableHighScore />
+                        </div>
+                    )}
             </div>
-
         </>
     );
 }

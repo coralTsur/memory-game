@@ -2,6 +2,8 @@ import { Alert} from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import React, {useState} from "react";
 import Cards from "./Cards";
+import Button from "react-bootstrap/Button";
+import {useNavigate} from "react-router-dom";
 
 
 function TableHighScore() {
@@ -22,16 +24,8 @@ function TableHighScore() {
             <br/>
             <div className='container - fluid'>
                 <div className='row'>
-                    <div className='col-2'></div>
-                    <div className='col-8'>
-                        <Alert key='success' variant='success'>
-                            Leader Board
-                        </Alert>
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className='col-2'></div>
-                    <div className='col-8'>
+                    <div className='col-12 col-lg-3'></div>
+                    <div className='col-12 col-lg-6'>
                         <Table striped bordered hover>
                             <thead>
                             <tr>

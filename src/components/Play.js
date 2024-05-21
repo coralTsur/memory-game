@@ -1,12 +1,17 @@
 import Cards from "./Cards"
 import {useState} from "react";
 import CardsList from './CardsList'
+import Button from 'react-bootstrap/Button';
 import GameManager from './GameManager'
+import { useNavigate } from 'react-router-dom';
 
 
 function Play({settingsFilter, playerData, updatePlayerData}) {
+    const navigate = useNavigate();
 
-
+    const goToHomePage= () => {
+        navigate('/');
+}
 
     return(
         <>
@@ -16,7 +21,8 @@ function Play({settingsFilter, playerData, updatePlayerData}) {
             </div>
             <br/>
             <div>
-                <button>I want to quit </button>
+                <Button onClick={goToHomePage} variant="danger">Back to HOME page</Button>{' '}
+
             </div>
         </>
     );
