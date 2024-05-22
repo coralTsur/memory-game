@@ -1,25 +1,15 @@
 import { Alert} from 'react-bootstrap';
-import Table from 'react-bootstrap/Table';
-import React, {useState} from "react";
 import TableHighScore from "./TableHighScore";
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
 
 
 function HighScorePaga() {
-
-    const leaderboardData = localStorage.getItem('leaderboard') ;
-    const leaderboard = JSON.parse(leaderboardData) || [];
-
-    const updatedCardList = leaderboard.map((player,index) => (
-        <tr key={index+1}>
-            <td>{index+1}</td>
-            <td>{player["name"]}</td>
-            <td>{player["score"]}</td>
-        </tr>
-    ));
     const navigate = useNavigate();
 
+    /**
+     * sent the user to home page
+     */
     const goToHomePage= () => {
         navigate('/');
     }

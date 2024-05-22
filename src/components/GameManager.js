@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Cards from "./Cards";
 import TableHighScore from "./TableHighScore";
+import {Row,Col} from "react-bootstrap";
+
 
 const images = [
     '/images/0.jpg', '/images/1.jpg', '/images/2.jpg', '/images/3.jpg',
@@ -15,13 +17,13 @@ function Game ({ settings,playerData ,updatePlayerData}) {
     const [matchedCards, setMatchedCards] = useState([]);
     const [isChecking, setIsChecking] = useState(false);
     const [steps, setSteps] = useState(0);
-    const [displayData, setDisplayData] = useState({displayScore: 0, rank: 0 });
-
 
     useEffect(() => {
         initializeGame();
     }, []);
-
+    /**
+     * create the list of cards
+     */
     const initializeGame = () => {
         const totalPairs = (settings.row * settings.col) / 2;
         const selectedImages = getRandomImages(totalPairs);
@@ -33,11 +35,19 @@ function Game ({ settings,playerData ,updatePlayerData}) {
         setMatchedCards([]);
     };
 
+    /**
+     * grill pictures from the list of pictures
+     * @param count
+     * @returns {string[]}
+     */
     const getRandomImages = (count) => {
         const shuffledImages = images.sort(() => 0.5 - Math.random());
         return shuffledImages.slice(0, count);
     };
-
+    /**
+     * after a card was clicked, this func check if cards are already open, and handle it
+     * @param index
+     */
     const handleCardClick = (index) => {
         if (isChecking || flippedCards.includes(index) || matchedCards.includes(index))
             return;
@@ -52,24 +62,42 @@ function Game ({ settings,playerData ,updatePlayerData}) {
             }, settings.delay * 1000);
         }
     };
-    const updateLeaderBoard=(scoreResult)=>{
-        const leaderboardData = localStorage.getItem('leaderboard') ;
+    /**
+     * the function gets the score result and updates the local storage
+     * @param scoreResult
+     */
+    const updateLeaderBoard=(scoreResult)=> {
+        const leaderboardData = localStorage.getItem('leaderboard');
         const leaderboard = JSON.parse(leaderboardData) || [];
-        const newEntry = { name: playerData.name , score: scoreResult};
-
-        const existingEntryIndex = leaderboard.findIndex(entry => entry.name === newEntry.name);
+        const newEntry = {name: playerData.name, score: scoreResult};
+        const existingEntryIndex = leaderboard.findIndex(entry => entry.name.toLowerCase() === newEntry.name.toLowerCase());
         if (existingEntryIndex !== -1) {
             if (newEntry.score > leaderboard[existingEntryIndex].score) {
                 leaderboard[existingEntryIndex].score = newEntry.score;
             }
-        } else if(newEntry.name !== "")
+        } else if (newEntry.name !== "")
             leaderboard.push(newEntry);
 
         leaderboard.sort((a, b) => b.score - a.score);
-        const newIndex = leaderboard.findIndex(entry => entry.name === playerData.name);
-        //setDisplayData(values =>({...values, displayScore: scoreResult, rank: newIndex}));
+
         localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+        const gameOverData = [];
+        gameOverData.push(
+            <div key={existingEntryIndex+1}>
+                <h1>You have completed the game!</h1>
+                <h5>Number of cards played: {settings.row * settings.col}</h5>
+                <h5>Score: {scoreResult}</h5>
+                <h5>You are ranked {existingEntryIndex+1} out of {leaderboard.length}</h5>
+            </div>
+        );
+        return gameOverData;
     };
+
+    /**
+     * this func check if to cards are the same
+     * @param index1 - the index of the first card
+     * @param index2 - the index of the second card
+     */
     const checkForMatch = ([index1, index2]) => {
         if (cards[index1].src === cards[index2].src) {
             setMatchedCards([...matchedCards, index1, index2]);
@@ -77,6 +105,10 @@ function Game ({ settings,playerData ,updatePlayerData}) {
         setFlippedCards([]);
         setIsChecking(false);
     };
+    /**
+     * creat all the card components
+     * @returns {*[]} of Cards
+     */
     const renderRows = () => {
         const rowsArray = [];
         for (let i = 0; i < settings.row; i++) {
@@ -85,39 +117,41 @@ function Game ({ settings,playerData ,updatePlayerData}) {
                 const index = i * settings.col + j;
                 if (index < cards.length) {
                     colsArray.push(
-                        <div key={index} className="col " style={{ margin: '1px' }} >
+                        <Col  key={index}  >
                             <Cards
                                 srcImage={flippedCards.includes(index) || matchedCards.includes(index) ? cards[index].src : '/images/card.jpg'}
                                 onClickFunc={() => handleCardClick(index)}
                             />
-                        </div>
+                        </Col>
                     );
                 }
             }
-            rowsArray.push(<div key={i} className="row" style={{ margin: '5px', display: 'flex'}}>{colsArray}</div>);
-
+            rowsArray.push(<Row key={i}  style={{ display: 'flex'}}>{colsArray}</Row>);
         }
         return rowsArray;
     }
+    /**
+     * this function calc the score and calls a function to update the board
+     */
     const handleScoreUpdate = () => {
-        //const score = (numCards * cardsCoefficient) / (steps + 1) / (time + 1) * timeCoefficient; //needs to be checked
-        const scoreResult =Math.floor((((settings.col * settings.row * 100)-(steps *0.1 )) * (1/(settings.delay + 1)*10)) ) ;
-        updateLeaderBoard(scoreResult);
+        return Math.floor(
+            (((Math.pow(settings.col * settings.row,2)* 1000)/(steps))*((1)/(1+settings.delay)))/10) ;
     };
     return (<>
-            <div className="container-fluid">
+            <div className="container-fluid text-center">
                 {
                     matchedCards.length !== cards.length ||  cards.length === 0 ? (
-                        <div className="row">
-                            <h1>Steps: {steps}</h1>
-                            {renderRows()}
-                        </div>
+
+                            <Row className=" justify-content-center">
+                                <h1>Steps: {steps}</h1>
+                                <Col >
+                                    {renderRows()}
+                                </Col>
+                            </Row>
+
                     ) : (
                         <div className="row">
-                            {handleScoreUpdate()} {/* Assuming handleScoreUpdate() returns the score */}
-                            <h1>GAME OVER</h1>
-                            <h5>Number of cards played: {settings.row * settings.col}</h5>
-                            <h5>Score: </h5> {/* Assuming `score` is a variable containing the calculated score */}
+                            {updateLeaderBoard(handleScoreUpdate())}
                             <TableHighScore />
                         </div>
                     )}

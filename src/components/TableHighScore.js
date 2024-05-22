@@ -1,10 +1,5 @@
-import { Alert} from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import React, {useState} from "react";
-import Cards from "./Cards";
-import Button from "react-bootstrap/Button";
-import {useNavigate} from "react-router-dom";
-
 
 function TableHighScore() {
 

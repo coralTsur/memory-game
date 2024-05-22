@@ -3,12 +3,15 @@ import {Fragment, useState} from "react";
 import InputName from "./InputName";
 import {Alert} from "react-bootstrap";
 
-function Settings({settingsFilter, updateSettings, setPlayerData}) {
+function Settings({settingsFilter, updateSettings, setPlayerData,playerData}) {
 
     const [errorMessage, setErrorMessage] = useState(false); // State to manage the error message
-
+    /**
+     * handle the change of settings, and checks if the amount of cards is even
+     * @param event
+     */
     const handleChange =(event)=>{
-        const name =event.target.name;
+        const name =event.target.name.trim();
         const value =event.target.value;
         if (name === "row") {
             if (settingsFilter.col * value % 2 === 0) {
@@ -17,7 +20,6 @@ function Settings({settingsFilter, updateSettings, setPlayerData}) {
             }
             else
                 setErrorMessage(true);
-
         }
         else if (name === "col") {
             if (settingsFilter.row * value % 2 === 0) {
@@ -35,7 +37,7 @@ function Settings({settingsFilter, updateSettings, setPlayerData}) {
     return (
         <>
             <div className='container - fluid'>
-                <InputName setPlayerData={setPlayerData}/>
+                <InputName playerData = {playerData} setPlayerData={setPlayerData}/>
                 <div className='row'>
                     <div className=' col-12 col-md-4'>
                         <h3>Number of rows:</h3>
